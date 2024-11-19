@@ -1,0 +1,67 @@
+
+import java.util.*;
+
+public class Studentgrademanager {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<String, Double> grades = new HashMap<>();
+        String choice = "yes"; // Initialize with default value
+
+        System.out.println("Welcome to the Student Grade Manager!");
+
+        while (choice.equals("yes")) {
+            System.out.print("\nEnter the subject name: ");
+            String subject = scanner.nextLine();
+
+            System.out.print("Enter the grade (0-100) for " + subject + ": ");
+            double grade = scanner.nextDouble();
+            scanner.nextLine(); // Consume newline
+
+            if (grade < 0 || grade > 100) {
+                System.out.println("Invalid grade! Please enter a value between 0 and 100.");
+                continue;
+            }
+
+            grades.put(subject, grade);
+
+            System.out.print("Do you want to enter another grade? (yes/no): ");
+            choice = scanner.nextLine().trim().toLowerCase();
+        }
+
+        // Calculate average
+        double average = calculateAverage(grades);
+
+        // Display results
+        System.out.println("\n--- Grade Report ---");
+        for (Map.Entry<String, Double> entry : grades.entrySet()) {
+            System.out.println("Subject: " + entry.getKey() + ", Grade: " + entry.getValue());
+        }
+        System.out.println("Average Grade: " + average);
+        System.out.println("Letter Grade: " + calculateLetterGrade(average));
+        System.out.println("GPA: " + calculateGPA(average));
+    }
+
+    public static double calculateAverage(Map<String, Double> grades) {
+        double sum = 0.0;
+        for (double grade : grades.values()) {
+            sum += grade;
+        }
+        return grades.isEmpty() ? 0 : sum / grades.size();
+    }
+
+    public static String calculateLetterGrade(double average) {
+        if (average >= 90) return "A";
+        else if (average >= 80) return "B";
+        else if (average >= 70) return "C";
+        else if (average >= 60) return "D";
+        else return "F";
+    }
+
+    public static double calculateGPA(double average) {
+        if (average >= 90) return 4.0;
+        else if (average >= 80) return 3.0;
+        else if (average >= 70) return 2.0;
+        else if (average >= 60) return 1.0;
+        else return 0.0;
+    }
+}
